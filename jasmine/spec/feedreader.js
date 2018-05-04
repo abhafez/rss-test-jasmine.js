@@ -68,14 +68,53 @@ $(function () {
         //      * Remember, loadFeed() is asynchronous so this test will require
         //      * the use of Jasmine's beforeEach and asynchronous done() function.
         //      */
+        let myCont;
+        beforeEach(done => {
+            loadFeed(0, done);
+        });
+
+        it('should have at least one entry', done => {
+            loadFeed(0, done);
+            myCont = document.querySelectorAll('.entry');
+            expect(myCont.length).not.toBe(0);
+        });
 
     });
 
     describe('New Feed Selection', () => {
-        //     /* TODO: Write a test that ensures when a new feed is loaded
-        //      * by the loadFeed function that the content actually changes.
-        //      * Remember, loadFeed() is asynchronous.
-        //      */
+
+        let firstCall, secondCall;
+        let x = 0;
+
+        beforeEach(done => {
+            loadFeed(x, done);
+        });
+
+        afterEach(() => {
+            x++;
+        });
+
+        it('should return different content', done => {
+
+            loadFeed(x, done);
+            firstCall = document.querySelector('.entry').innerHTML;
+            console.log(firstCall);
+            expect(firstCall).not.toEqual(0);
+            done();
+
+        });
+        
+        it('call one should give value', done => {
+            loadFeed(x, done);
+            secondCall = document.querySelector('.entry').innerHTML;
+            console.log(secondCall);
+            expect(firstCall).not.toEqual(0);
+            done();
+        });
+
+        it('Should return different feed from different sources', () => {
+            expect(firstCall).not.toEqual(secondCall);
+        });
 
     });
 
